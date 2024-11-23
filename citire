@@ -1,0 +1,35 @@
+import csv
+
+# Funcție pentru citirea datelor dintr-un fișier CSV
+def read_kuznets_data_no_pandas(file_path):
+    with open(file_path, 'r') as file:
+        reader = csv.reader(file)
+        data = list(reader)  # Convertește cititorul într-o listă de liste
+    x_values = [float(value) for value in data[0]]  # Prima linie: valori X (venituri)
+    y_values = [float(value) for value in data[1]]  # A doua linie: valori Y (inegalitate)
+    return x_values, y_values
+
+# Fișierele CSV și țările asociate
+files_and_countries = {
+    "Kuzents_Spain.csv": "Spania",
+    "kuznets_poland.csv": "Polonia",
+    "kuznets_rom.csv": "România"
+}
+
+# Dictionar pentru stocarea datelor fiecărei țări
+country_data = {}
+
+# Citește datele pentru fiecare țară
+for file, country in files_and_countries.items():
+    x_values, y_values = read_kuznets_data_no_pandas(file)
+    country_data[country] = {
+        'X': x_values,  # Venituri
+        'Y': y_values   # Inegalitate
+    }
+
+# Afișează datele organizate
+for country, data in country_data.items():
+    print(f"Țară: {country}")
+    print("Venituri (X):", data['X'])
+    print("Inegalitate (Y):", data['Y'])
+    print()
